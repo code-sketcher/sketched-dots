@@ -1,0 +1,110 @@
+" Fix vim for modern terminals !!!!!!!!!! 
+" Mouse support
+"set mouse=a
+"set ttymouse=sgr
+"set balloonevalterm
+" Styled and colored underline support
+let &t_AU = "\e[58:5:%dm"
+let &t_8u = "\e[58:2:%lu:%lu:%lum"
+let &t_Us = "\e[4:2m"
+let &t_Cs = "\e[4:3m"
+let &t_ds = "\e[4:4m"
+let &t_Ds = "\e[4:5m"
+let &t_Ce = "\e[4:0m"
+" Strikethrough
+let &t_Ts = "\e[9m"
+let &t_Te = "\e[29m"
+" Truecolor support
+let &t_8f = "\e[38:2:%lu:%lu:%lum"
+let &t_8b = "\e[48:2:%lu:%lu:%lum"
+let &t_RF = "\e]10;?\e\\"
+let &t_RB = "\e]11;?\e\\"
+" Bracketed paste
+let &t_BE = "\e[?2004h"
+let &t_BD = "\e[?2004l"
+let &t_PS = "\e[200~"
+let &t_PE = "\e[201~"
+" Cursor control
+let &t_RC = "\e[?12$p"
+let &t_SH = "\e[%d q"
+let &t_RS = "\eP$q q\e\\"
+let &t_SI = "\e[5 q"
+let &t_SR = "\e[3 q"
+" let &t_EI = "\e[1 q" for some reason this is changing the cursor shape after
+" isert mode exit
+let &t_VS = "\e[?12l"
+" Focus tracking
+let &t_fe = "\e[?1004h"
+let &t_fd = "\e[?1004l"
+execute "set <FocusGained>=\<Esc>[I"
+execute "set <FocusLost>=\<Esc>[O"
+" Window title
+let &t_ST = "\e[22;2t"
+let &t_RT = "\e[23;2t"
+
+" vim hardcodes background color erase even if the terminfo file does
+" not contain bce. This causes incorrect background rendering when
+" using a color theme with a background color in terminals such as
+" kitty that do not support background color erase.
+let &t_ut=''
+
+" These settings must be placed before setting the colorscheme.
+" It is also important that the value of the vim term variable
+" is not changed after these settings.
+
+" End fix vim for modern terminals !!!!
+
+set termguicolors                                                                                                                                                                                             
+colorscheme catppuccin_macchiato
+
+syntax on " Syntax highlighting
+set number
+set ruler
+" filetype off 
+filetype plugin indent on
+set wildmenu " Visual autocomplete for command menu
+set showcmd " Show partial command you type in the last line of the screen.
+set showmode " Show the mode you are on the last line. 
+set showmatch " Highlight matching parentheses / brackets [{()}]
+
+" Search settings
+set incsearch " Search as characters are entered
+set hlsearch " Use highlighting when doing a search.
+
+set laststatus=2 " Status bar
+set ttyfast " Rendering
+
+" Tab settings
+set expandtab " Insert spaces instead of tabs
+set shiftwidth=4 " Number of spaces used for identation
+set tabstop=4 " Number of spaces when tab is pressed
+set softtabstop=4 " Kind of tabstop but does more - also removes the same number of spaces and more
+
+set autoindent          " copy indent from current line when starting a new line
+set smartindent         " even better autoindent (e.g. add indent after '{')
+
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
+
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source $MYVIMRC
+\| endif
+
+call plug#begin()
+
+Plug 'SirVer/ultisnips' | Plug 'phux/vim-snippets'
+Plug 'Valloric/YouCompleteMe'
+
+call plug#end()
+
+let g:UltiSnipsExpandTrigger="<c-space>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-j>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="context"
+
