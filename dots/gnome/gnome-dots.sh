@@ -29,8 +29,12 @@ gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-right "['<Sup
     print_error "Gnome: failed to set switch-to-workspace-right shortcut"
 }
 
-gsettings set org.gnome.desktop.wm.preferences button-layout : || {
-    print_error "Gnome: failed to disable button layout "
+# gsettings set org.gnome.desktop.wm.preferences button-layout : || {
+#     print_error "Gnome: failed to disable button layout "
+# }
+
+gnome-extensions disable ubuntu-dock@ubuntu.com || {
+    print_error "Gnome: failed to disable Ubuntu dock"
 }
 
 gsettings set org.gnome.shell.extensions.ding show-home false || {
