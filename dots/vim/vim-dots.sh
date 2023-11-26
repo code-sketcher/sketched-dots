@@ -13,6 +13,7 @@ if ! command -v vim &> /dev/null; then
 fi
 
 rm -rf "$vim_symlink"
+rm ~/.vimrc
 
 ln -sf "$vim_dots_folder" "$vim_symlink" || {
     print_error "Vim: failed to create symlink for gitconfig"

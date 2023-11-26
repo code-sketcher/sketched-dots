@@ -57,15 +57,20 @@ let &t_ut=''
 set termguicolors                                                                                                                                                                                             
 colorscheme catppuccin_macchiato
 
+" Behaviour
 syntax on " Syntax highlighting
-set number
-set ruler
-" filetype off 
-filetype plugin indent on
+" set number
+set ruler " Show the cursor position
+filetype plugin indent on " Use filetype plugins
 set wildmenu " Visual autocomplete for command menu
+set wildmode=list:full " show a list when pressing tab and complete first full match
 set showcmd " Show partial command you type in the last line of the screen.
 set showmode " Show the mode you are on the last line. 
 set showmatch " Highlight matching parentheses / brackets [{()}]
+set scrolloff=4 " Keep 4 lines off the edges of the screen when scrolling
+set title
+set history=1000 " Remember more commands and search history
+set undolevels=1000 " Use many levels of undo
 
 " Search settings
 set incsearch " Search as characters are entered
