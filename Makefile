@@ -11,3 +11,7 @@ git-dots:
 
 bash-dots: 
 	./dots/bash/bash-dots.sh || true
+
+gnome-dots:
+	./dots/gnome/gnome-dots.sh || true
+
