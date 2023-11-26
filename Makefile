@@ -1,4 +1,4 @@
-all: kitty-dots vim-dots git-dots bash-dots
+all: kitty-dots vim-dots git-dots bash-dots gnome-dots
 
 kitty-dots: 
 	./dots/kitty/kitty-dots.sh || true
