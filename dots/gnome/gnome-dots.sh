@@ -33,7 +33,7 @@ gsettings set org.gnome.desktop.wm.preferences button-layout : || {
     print_error "Gnome: failed to disable button layout "
 }
 
-gsettings set org.gnome.shell.extensions.ding show-home false {
+gsettings set org.gnome.shell.extensions.ding show-home false || {
     print_error "Gnome: failed to disable desktop home icon"
 }
 
