@@ -132,6 +132,14 @@ if [ -f ~/.bash_ssh.sh ]; then
   . ~/.bash_ssh.sh
 fi
 
+if [ -f ~/.bash_ssh.sh ]; then
+  . ~/.bash_ssh.sh
+fi
+
+if [ -f /usr/share/autojump/autojump.sh ]; then
+  . /usr/share/autojump/autojump.sh
+fi
+
 if command -v neofetch &> /dev/null; then
     neofetch
 fi
