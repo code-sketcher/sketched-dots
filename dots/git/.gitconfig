@@ -1,1 +1,8 @@
-.gitconfig
+[user]
+	name = Alin Ghiga
+    email = alinghiga@gmail.com
+[color]
+    ui = true
+
+[includeIf "gitdir:~/work/"]
+    path = ~/Projects/work/.gitconfig
