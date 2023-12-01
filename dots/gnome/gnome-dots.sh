@@ -41,4 +41,8 @@ gsettings set org.gnome.shell.extensions.ding show-home false || {
     print_error "Gnome: failed to disable desktop home icon"
 }
 
+gsettings set org.gnome.desktop.default-applications.terminal exec kitty || {
+    print_error "Gnome: failed to set kitty default terminal"
+}
+
 print_success "Gnome: Setup completed!"
