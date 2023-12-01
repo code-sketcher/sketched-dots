@@ -20,4 +20,10 @@ ln -sf "$ulauncher_dots_folder/ulauncher_kitty_ssh" "$ulauncher_kitty_symlink" |
     exit 1
 }
 
+rm -rf ~/.config/ulauncher
+mkdir -p ~/.config/ulauncher/user-themes
+git clone https://github.com/Surendrajat/SeaOwl-Ulauncher-theme $HOME/.config/ulauncher/user-themes/SeaOwl
+git clone https://github.com/NayamAmarshe/ulauncher-zorinBlueDark/ ~/.config/ulauncher/user-themes/zorin-blue-dark
+git clone https://github.com/GiorgioReale/Ulauncher-Essential-Dark-Theme.git ~/.config/ulauncher/user-themes/Essential-Dark-Theme
+
 print_success "Ulauncher: Dotfiles setup completed!"
