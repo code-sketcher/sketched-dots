@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+
+#This is used for ssh ulauncher. Put file name in Terminal, -e in Terminal arg and %CONN in Terminal cmd 
+
+import subprocess
+import sys
+import psutil
+
+host = sys.argv[2]
+title='--title='+host
+icon = ''
+color=''
+
+if host.startswith('dev') or host.startswith('test'):
+    subprocess.run('rsync -hvrPt ~/.config/bash-unite/* '+host+':~/bash-unite', shell=True)
+    subprocess.run('rsync -hvrPt ~/.config/bash-unite/remote-bashrc '+host+':~/.bashrc', shell=True)
+    icon=' --logo ~/.config/kitty/icons/code.png'
+
+if ('prod' in host or 'www' in host or 'edeploy' in host or 'worker' in host) and 'stage' not in host:
+    icon=' --logo ~/.config/kitty/icons/prod-icon-red.png'
+    color=' --color ~/.config/kitty/themes/ubuntu.conf'
+
+if 'stage' in host:
+    icon=' --logo ~/.config/kitty/icons/prod-icon-yellow.png'
+    color=' --color ~/.config/kitty/themes/batman.conf'
+
+tab_config=title + icon + color + ' ssh ' + host
+
+for proc in psutil.process_iter():
+    if 'kitty' in proc.name():
+        try:
+            subprocess.run('kitty @ --to unix:@kitty-' + str(proc.pid) + ' launch --type tab ' + tab_config, shell=True)
+            subprocess.run('xdotool windowactivate `xdotool search --pid '+ str(proc.pid) + ' | tail -1`', shell=True)
+            quit()
+        except Exception as e:
+            print(e)
+            quit()
+
+subprocess.run('kitty kitty @ launch --type tab ' + tab_config, shell=True)

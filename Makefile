@@ -1,4 +1,4 @@
-all: kitty-dots vim-dots git-dots bash-dots gnome-dots
+all: kitty-dots vim-dots git-dots bash-dots gnome-dots ulauncher-dots
 
 kitty-dots: 
 	./dots/kitty/kitty-dots.sh || true
@@ -15,3 +15,5 @@ bash-dots:
 gnome-dots:
 	./dots/gnome/gnome-dots.sh || true
 
+ulauncher-dots:
+	./dots/ulauncher/ulauncher-dots.sh || true
