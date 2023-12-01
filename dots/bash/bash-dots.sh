@@ -15,7 +15,7 @@ create_symlink() {
     } 
 }
 
-files=(".bashrc" ".bash_aliases" ".inputrc")
+files=(".bashrc" ".bash_aliases" ".inputrc" ".bash_ssh.sh")
 
 for file in "${files[@]}"; do
     target_file="$bash_dots_folder/$file"

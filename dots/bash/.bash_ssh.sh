@@ -44,15 +44,15 @@ ssh() {
 
     for HOST in $ARGS; do :; done
 
-    if shouldCopyFile; then
-        rsync -hvrPt ~/.config/bash-unite/* "$ARGS:~/bash-unite"
-        rsync -hvrPt ~/.config/bash-unite/remote-bashrc "$ARGS:~/.bashrc"
-	rsync -hvrPt ~/.config/bash-unite/.vim "$ARGS:~/"
+    if shouldCopyFile && isKittyTerminal; then
+#        rsync -hvrPt ~/.config/bash-unite/* "$ARGS:~/bash-unite"
+#        rsync -hvrPt ~/.config/bash-unite/remote-bashrc "$ARGS:~/.bashrc"
+#	     rsync -hvrPt ~/.config/bash-unite/.vim "$ARGS:~/"
 
         ICON="$HOME/.config/kitty/icons/code.png"
+        SSHAPP="kitten ssh"
     fi
 
     runKittyConfig
-
     $SSHAPP $ARGS;
 }
