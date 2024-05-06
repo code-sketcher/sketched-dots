@@ -103,6 +103,7 @@ call plug#begin()
 
 Plug 'SirVer/ultisnips' | Plug 'phux/vim-snippets'
 Plug 'Valloric/YouCompleteMe'
+Plug 'preservim/nerdtree'
 
 call plug#end()
 
