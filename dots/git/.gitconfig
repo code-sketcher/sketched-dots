@@ -5,4 +5,4 @@
     path = ~/projects/work/.gitconfig.work
 
 [includeIf "gitdir/i:own"]
-    path = ~/projects/own/.gitconfig.own
+    path = ~/projects/own/.gitconfig
