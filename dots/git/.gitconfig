@@ -1,8 +1,8 @@
-[user]
-	name = Alin Ghiga
-    email = alinghiga@gmail.com
 [color]
     ui = true
 
-[includeIf "gitdir:~/work/"]
-    path = ~/Projects/work/.gitconfig
+[includeIf "gitdir/i:projects/work"]
+    path = ~/projects/work/.gitconfig.work
+
+[includeIf "gitdir/i:projects/own"]
+    path = ~/projects/own/.gitconfig.own

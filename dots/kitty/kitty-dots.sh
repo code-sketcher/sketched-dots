@@ -8,7 +8,7 @@ kitty_symlink="$HOME/.config/kitty"
 
 print_info "$kitty_dots_folder"
 
-if [ ! -e "$kitty_path" ]; then
+if [ ! -e "$kitty_path" ] && [ ! -e "/usr/bin/kitty" ]; then
     print_warning "Kitty is not installed! Skipping..."
     exit 1
 fi
@@ -19,6 +19,16 @@ ln -sf "$kitty_dots_folder" "$kitty_symlink" || {
     print_error "Kitty: failed to create symlink"
     exit 1
 }
+
+if [ -e "/usr/bin/kitty" ]; then
+    sudo sed -i "s|Icon=kitty|Icon=$kitty_dots_folder/icons/kitty-dark.png|g" /usr/share/applications/kitty*.desktop || {
+        print_error "Kitty: failed to set icon"
+        exit 1
+    }
+    
+    print_success "Kitty: Dotfiles setup completed!"   
+    exit 0;
+fi
 
 cp ~/.local/kitty.app/share/applications/kitty.desktop ~/.local/share/applications/ || {
     print_error "Kitty: failed to copy kitty.desktop"
