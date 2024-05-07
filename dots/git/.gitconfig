@@ -4,6 +4,5 @@
 [includeIf "gitdir/i:work"]
     path = ~/projects/work/.gitconfig.work
 
-#[includeIf "gitdir/i:own"]
-[include]
+[includeIf "gitdir/i:own"]
     path = ~/projects/own/gitconfig
