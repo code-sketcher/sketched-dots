@@ -6,4 +6,4 @@
 
 #[includeIf "gitdir/i:own"]
 [include]
-    path = /home/sketch/projects/own/.gitconfig
+    path = ~/projects/own/gitconfig
