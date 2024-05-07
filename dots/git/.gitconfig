@@ -6,4 +6,4 @@
 
 #[includeIf "gitdir/i:own"]
 [include]
-    path = ~/projects/own/.gitconfig
+    path = projects/own/.gitconfig
