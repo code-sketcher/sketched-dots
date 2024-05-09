@@ -17,3 +17,6 @@ gnome-dots:
 
 ulauncher-dots:
 	./dots/ulauncher/ulauncher-dots.sh || true
+
+ssh-dots:
+	./dots/ssh/ssh-dots.sh || true
