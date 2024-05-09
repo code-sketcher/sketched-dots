@@ -123,6 +123,14 @@ if [ -f /usr/share/doc/fzf/examples/key-bindings.bash ]; then
 	source /usr/share/doc/fzf/examples/key-bindings.bash
 fi
 
+if [ -f /usr/share/fzf/shell/key-bindings.bash ]; then
+	source /usr/share/fzf/shell/key-bindings.bash
+fi
+
+if [ -f /usr/share/fzf/shell/completion.bash ]; then
+	source /usr/share/fzf/shell/completion.bash
+fi
+
 if [ -f ~/.bash_prompt.sh ]; then
 	. ~/.bash_prompt.sh
 fi
