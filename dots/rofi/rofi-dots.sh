@@ -15,6 +15,9 @@ create_symlink() {
 	}
 }
 
+rm -rf "$HOME/.config/rofi/colors"
+rm -rf "$HOME/.config/rofi/themes"
+
 create_symlink "$rofi_dots_folder/config.rasi" "$HOME/.config/rofi/config.rasi"
 create_symlink "$rofi_dots_folder/colors" "$HOME/.config/rofi/colors"
 create_symlink "$rofi_dots_folder/themes" "$HOME/.config/rofi/themes"
