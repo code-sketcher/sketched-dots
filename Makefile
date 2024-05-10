@@ -20,3 +20,6 @@ ulauncher-dots:
 
 ssh-dots:
 	./dots/ssh/ssh-dots.sh || true
+
+rofi-dots:
+	./dots/rofi/rofi-dots.sh || true

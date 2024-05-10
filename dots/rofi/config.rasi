@@ -1,0 +1,13 @@
+configuration {
+  modes: "window,drun,run,combi";
+  show-icons: true;
+  combi-modes: [window, drun];
+  display-drun:               " ";
+  display-run:                " ";
+  display-filebrowser:        " ";
+  display-window:             " ";
+
+  font: "Iosevka Nerd Font 12";
+}
+
+@import "~/.config/rofi/themes/theme-2.rasi"
