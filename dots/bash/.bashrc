@@ -151,5 +151,9 @@ if command -v fastfetch &>/dev/null; then
 	fastfetch
 fi
 
+if command -v zoxide &>/dev/null; then
+	eval "$(zoxide init bash)"
+fi
+
 #in order to use i-search with ctrl+s
 [[ $- == *i* ]] && stty -ixon
