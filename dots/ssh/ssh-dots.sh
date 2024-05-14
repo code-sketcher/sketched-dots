@@ -20,3 +20,4 @@ create_symlink "$ssh_dots_folder/ssh-agent-shutdown.sh" "$HOME/.config/plasma-wo
 create_symlink "$ssh_dots_folder/ssh-autostart-plasma.sh" "$HOME/.local/bin/ssh-autostart"
 
 print_success "SSH: Dotfiles setup completed!"
+print_info "WARNING!!!!!! Add to kde plasma login autostart script .local/bin/ssh-autostart !!!!!!!!!!!!!!"
