@@ -6,6 +6,7 @@ tmux_dots_folder=$(dirname "$(realpath "$0")")
 print_info "$tmux_dots_folder"
 
 folder="$HOME/.config/tmux/plugins/tpm"
+url="https://github.com/tmux-plugins/tpm"
 if ! git clone "${url}" "${folder}" 2>/dev/null && [ -d "${folder}" ] ; then
     print_info "!!!! TMUX TMP !!!! Clone failed because the folder ${folder} exists!"
 fi
@@ -20,6 +21,6 @@ create_symlink() {
 	}
 }
 
-create_symlink "$ssh_dots_folder/tmux.conf" "$HOME/.config/tmux/tmux.conf"
+create_symlink "$tmux_dots_folder/tmux.conf" "$HOME/.config/tmux/tmux.conf"
 
 print_success "TMUX: Dotfiles setup completed!"

@@ -23,3 +23,6 @@ ssh-dots:
 
 rofi-dots:
 	./dots/rofi/rofi-dots.sh || true
+
+tmux-dots: 
+	./dots/tmux/tmux-dots.sh || true
