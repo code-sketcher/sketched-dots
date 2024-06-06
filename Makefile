@@ -26,3 +26,9 @@ rofi-dots:
 
 tmux-dots: 
 	./dots/tmux/tmux-dots.sh || true
+
+lazyvim-dots:
+	./dots/lazyvim/lazyvim-dots.sh || true
+
+nerdfont-dots:
+	./dots/nerdfont/nerdfont-dots.sh || true
