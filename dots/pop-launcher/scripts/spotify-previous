@@ -1,0 +1,8 @@
+#!/bin/sh
+#
+# name: Previous Song Spotify
+# icon: spotify-client
+# description: Skip to the previous song on Spotify
+# keywords: previous spotify
+
+dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous

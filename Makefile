@@ -32,3 +32,6 @@ lazyvim-dots:
 
 nerdfont-dots:
 	./dots/nerdfont/nerdfont-dots.sh || true
+
+pop-launcher-dots:
+	./dots/pop-launcher/pop-launcher-dots.sh || true

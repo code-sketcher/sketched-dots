@@ -1,0 +1,9 @@
+#!/bin/sh
+#
+# name: Play/Pause Spotify
+# icon: spotify-client
+# description: Play/Pause Spotify
+# keywords: pause play spotify
+
+
+dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause

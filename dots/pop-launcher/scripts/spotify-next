@@ -1,0 +1,8 @@
+#!/bin/sh
+#
+# name: Next Song Spotify
+# icon: spotify-client
+# description: Skip to the Next Song on Spotify
+# keywords: next spotify
+
+dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
