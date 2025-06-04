@@ -1,7 +1,7 @@
 configuration {
-  modes: "window,drun,run,combi";
+  modes: "window,drun,run,combi,ssh";
   show-icons: true;
-  combi-modes: [window, drun];
+  combi-modes: [window, drun, ssh, run];
   display-drun:               " ";
   display-run:                " ";
   display-filebrowser:        " ";

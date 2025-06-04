@@ -135,9 +135,9 @@ if [ -f ~/.bash_prompt.sh ]; then
 	. ~/.bash_prompt.sh
 fi
 
-if [ -f ~/.bash_ssh.sh ]; then
-	. ~/.bash_ssh.sh
-fi
+#if [ -f ~/.bash_ssh.sh ]; then
+#	. ~/.bash_ssh.sh
+#fi
 
 if [ -f /usr/share/autojump/autojump.bash ]; then
 	. /usr/share/autojump/autojump.bash
