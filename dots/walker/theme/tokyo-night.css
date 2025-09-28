@@ -1,0 +1,167 @@
+
+@define-color selected-text #7dcfff;
+@define-color text #cfc9c2;
+@define-color base #1a1b26;
+@define-color border #33ccff;
+@define-color foreground #cfc9c2;
+@define-color background #1a1b26;
+
+@define-color window_bg_color #1a1b26;
+@define-color accent_bg_color #33ccff;
+@define-color theme_fg_color #cfc9c2;
+
+* {
+  all: unset;
+  font-family: monospace;
+  font-size: 18px;
+}
+
+.normal-icons {
+  -gtk-icon-size: 16px;
+}
+
+.large-icons {
+  -gtk-icon-size: 32px;
+}
+
+scrollbar {
+  opacity: 0;
+}
+
+.box-wrapper {
+  background: transparent;
+  color: @text;
+}
+
+.preview-box,
+.elephant-hint,
+.placeholder {
+  color: @theme_fg_color;
+}
+
+.box {
+  background: alpha(@base, 0.95);
+  padding: 20px;
+  border: 2px solid @border;
+  border-radius: 0px;
+}
+
+.search-container {
+  background: @base;
+  padding: 10px;
+  margin-bottom: 0;
+}
+
+.input placeholder {
+  opacity: 0.5;
+  color: @text;
+}
+
+.input {
+  background: none;
+  color: @text;
+  padding: 0;
+}
+
+.input:focus,
+.input:active {
+}
+
+.content-container {
+}
+
+.placeholder {
+}
+
+.scroll {
+}
+
+.list {
+  background: transparent;
+}
+
+child {
+  padding: 0px 12px;
+  background: transparent;
+  border-radius: 0;
+}
+
+.item-box {
+  padding: 0;
+}
+
+.item-quick-activation {
+  opacity: 0;
+}
+
+child:hover .item-box,
+child:selected .item-box {
+  background: transparent;
+}
+
+child:hover .item-text,
+child:hover .item-subtext,
+child:selected .item-text,
+child:selected .item-subtext {
+  font-style: italic;
+  color: @selected-text;
+}
+
+.item-text-box {
+}
+
+.item-text {
+  color: @text;
+  padding: 14px 0;
+}
+
+.item-subtext {
+  opacity: 0;
+  font-size: 0;
+  min-height: 0;
+}
+
+.item-image {
+  margin-right: 10px;
+  -gtk-icon-transform: scale(0.7);
+}
+
+.keybind-hints {
+  font-size: 12px;
+  opacity: 0.2;
+  color: @text;
+}
+
+.preview {
+  border: 1px solid alpha(@base, 0.25);
+  padding: 10px;
+  border-radius: 10px;
+  color: @border;
+}
+
+.calc .item-text {
+  font-size: 24px;
+}
+
+.calc .item-subtext {
+}
+
+.symbols .item-image {
+  font-size: 24px;
+}
+
+.todo.done .item-text-box {
+  opacity: 0.25;
+}
+
+.todo.urgent {
+  font-size: 24px;
+}
+
+.todo.active {
+  font-weight: bold;
+}
+
+.preview .large-icons {
+  -gtk-icon-size: 64px;
+}
