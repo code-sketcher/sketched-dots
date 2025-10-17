@@ -15,7 +15,7 @@ create_symlink() {
   }
 }
 
-files=(".bashrc" ".inputrc")
+files=(".bashrc")
 
 for file in "${files[@]}"; do
   target_file="$bash_dots_folder/$file"
@@ -23,6 +23,6 @@ for file in "${files[@]}"; do
   create_symlink "$target_file" "$link_file"
 done
 
-create_symlink "$bash_dots_folder/.bash_prompt_first.sh" "$HOME/.bash_prompt.sh"
+#create_symlink "$bash_dots_folder/.bash_prompt_first.sh" "$HOME/.bash_prompt.sh"
 
 print_success "Bash: Dotfiles setup completed!"

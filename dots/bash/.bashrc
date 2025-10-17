@@ -10,6 +10,62 @@ export PATH="$HOME/.composer/vendor/bin:$PATH"
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
 # ------------------------------------------------------------
+# VIM MODE
+# ------------------------------------------------------------
+set -o vi
+
+# ------------------------------------------------------------
+# READLINE / INPUTRC SETTINGS (converted to bind commands)
+# ------------------------------------------------------------
+# Meta / encoding settings
+bind 'set meta-flag on'     # Enable Meta key support
+bind 'set input-meta on'    # Allow 8-bit input characters
+bind 'set output-meta on'   # Allow 8-bit output characters
+bind 'set convert-meta off' # Do not convert 8-bit to escape sequences
+
+# Completion behavior
+bind 'set completion-ignore-case on'          # Case-insensitive completion
+bind 'set completion-prefix-display-length 2' # Show 2 chars for prefix
+bind 'set show-all-if-ambiguous on'           # Show all matches immediately
+bind 'set show-all-if-unmodified on'          # Show matches if line unchanged
+
+# Arrow keys match what you've typed so far against your command history
+bind '"\e[A": history-search-backward' # Up arrow searches history
+bind '"\e[B": history-search-forward'  # Down arrow searches history
+bind '"\e[C": forward-char'            # Right arrow moves cursor forward
+bind '"\e[D": backward-char'           # Left arrow moves cursor backward
+
+# Immediately add a trailing slash when autocompleting symlinks to directories
+bind 'set mark-symlinked-directories on'
+
+# Do not autocomplete hidden files unless pattern starts with dot
+bind 'set match-hidden-files off'
+
+# Show all autocomplete results at once
+bind 'set page-completions off'
+
+# If there are more than 200 possible completions, ask before listing
+bind 'set completion-query-items 200'
+
+# Show extra file information when completing, like `ls -F`
+bind 'set visible-stats on'
+
+# Be more intelligent when autocompleting by looking after cursor
+bind 'set skip-completed-text on'
+
+# Coloring for Bash 4 tab completions
+bind 'set colored-stats on'
+
+# Enable colored completion prefix
+bind 'set colored-completion-prefix on'
+
+# Ctrl + Arrow moves by words
+bind '"\e[1;5C": forward-word'
+bind '"\e[1;5D": backward-word'
+
+# Alt + Backspace deletes previous word
+bind '"\e[3;5~": kill-word'
+# ------------------------------------------------------------
 # SHELL OPTIONS
 # ------------------------------------------------------------
 shopt -s histappend   # Append to history, don't overwrite
