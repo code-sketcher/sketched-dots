@@ -44,7 +44,10 @@ install_nerd_font() {
   local font_name="$1"
   local zip_url="$2"
   local target_dir="$FONT_DIR/$font_name"
-  local zip_file="$FONT_DIR/$font_name.zip"
+
+  # Extract filename from URL
+  local actual_zip_filename=$(basename "$zip_url") # e.g., IosevkaTerm.zip
+  local zip_file="$FONT_DIR/$actual_zip_filename" # This is the correct path to the downloaded file
 
   # Check if font is already installed
   if [ -d "$target_dir" ] && [ -n "$(ls -A "$target_dir")" ]; then
