@@ -29,7 +29,7 @@ define create_symlink
 	@printf "$(GREEN)$(1) symlink created successfully.$(RESET)\n"
 endef
 
-all: tmux alacritty ghostty bash inputrc
+all: tmux alacritty ghostty bash inputrc nerdfont
 
 tmux:
 	$(call create_symlink,tmux,${CURDIR}/dots/tmux/tmux.conf,${HOME}/.config/tmux/tmux.conf)
@@ -45,4 +45,7 @@ bash:
 
 inputrc:
 	$(call create_symlink,inputrc,${CURDIR}/dots/bash/.inputrc,${HOME}/.inputrc)
+
+nerdfont:
+	@${CURDIR}/dots/nerdfont/nerdfont-dots.sh
 
