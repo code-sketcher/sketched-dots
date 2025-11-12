@@ -35,10 +35,10 @@ tmux:
 	$(call create_symlink,tmux,${CURDIR}/dots/tmux/tmux.conf,${HOME}/.config/tmux/tmux.conf)
 
 alacritty:
-	$(call create_symlink,alacritty,${CURDIR}/alacritty,${HOME}/.config/alacritty)
+	$(call create_symlink,alacritty,${CURDIR}/dots/alacritty,${HOME}/.config/alacritty)
 
 ghostty:
-	$(call create_symlink,ghostty,${CURDIR}/ghostty,${HOME}/.config/ghostty)
+	$(call create_symlink,ghostty,${CURDIR}/dots/ghostty,${HOME}/.config/ghostty)
 
 bash:
 	$(call create_symlink,bash,${CURDIR}/dots/bash/.bashrc,${HOME}/.bashrc)
