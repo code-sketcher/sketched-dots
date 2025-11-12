@@ -46,6 +46,12 @@ install_nerd_font() {
   local target_dir="$FONT_DIR/$font_name"
   local zip_file="$FONT_DIR/$font_name.zip"
 
+  # Check if font is already installed
+  if [ -d "$target_dir" ] && [ -n "$(ls -A "$target_dir")" ]; then
+    print_info "$font_name already installed. Skipping."
+    return 0
+  fi
+
   print_info "Installing $font_name..."
 
   # Download
@@ -62,7 +68,12 @@ install_nerd_font() {
 
   # Unzip
   mkdir -p "$target_dir"
-  unzip -o "$zip_file" -d "$target_dir" # -o to overwrite existing files without prompt
+  print_info "Attempting to unzip $zip_file to $target_dir"
+  if ! unzip -o "$zip_file" -d "$target_dir" 2>&1; then
+    print_warning "Unzip failed for $font_name. Check output above for details."
+    rm -rf "$target_dir" # Clean up partially unzipped directory
+    return 1
+  fi
   rm "$zip_file"
 
   if [ ! -d "$target_dir" ] || [ -z "$(ls -A "$target_dir")" ]; then
