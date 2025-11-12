@@ -29,7 +29,7 @@ define create_symlink
 	@printf "$(GREEN)$(1) symlink created successfully.$(RESET)\n"
 endef
 
-all: tmux alacritty ghostty bash inputrc nerdfont
+dots: tmux alacritty ghostty bash inputrc
 
 tmux:
 	$(call create_symlink,tmux,${CURDIR}/dots/tmux/tmux.conf,${HOME}/.config/tmux/tmux.conf)
@@ -46,6 +46,22 @@ bash:
 inputrc:
 	$(call create_symlink,inputrc,${CURDIR}/dots/bash/.inputrc,${HOME}/.inputrc)
 
-nerdfont:
+install-nerdfont:
 	@${CURDIR}/dots/nerdfont/nerdfont-dots.sh
+
+install-macos-apps:
+	@printf "$(BLUE)Checking OS for macOS application installation...$(RESET)\n"
+	@if [ "$(UNAME_S)" = "Darwin" ]; then \
+	  printf "$(BLUE)Checking for Homebrew...$(RESET)\n"; \
+	  if ! command -v brew &>/dev/null; then \
+	    printf "$(RED)Homebrew is not installed. Please install Homebrew first: /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"$(RESET)\n"; \
+	    exit 1; \
+	  fi; \
+	  printf "$(GREEN)Homebrew is installed. Installing macOS applications: fzf, fd, ripgrep, eza, zoxide, bat, yazi...$(RESET)\n"; \
+	  brew install fzf fd ripgrep eza zoxide bat yazi || (printf "$(RED)Error: Failed to install some macOS applications. Check output above for details.$(RESET)\n" && exit 1); \
+	  brew install --cask ghostty|| (printf "$(RED)Error: Failed to install some macOS applications. Check output above for details.$(RESET)\n" && exit 1); \
+	  printf "$(GREEN)macOS applications installed successfully (or already present).$(RESET)\n"; \
+	else \
+	  printf "$(YELLOW)Skipping macOS application installation: Not on macOS ($(UNAME_S)).$(RESET)\n"; \
+	fi
 
