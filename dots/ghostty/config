@@ -42,18 +42,29 @@
 # # Just for example:
 # resize-overlay-duration = 4s 200ms
 #
-theme=TokyoNight
+# theme=TokyoNight
+# theme=Atom
+theme=Atom One Dark
+# theme=Andromeda
+# theme=Github Dark Default 
+# theme=Github Dark
+# theme=Github Dark High Contrast
+# theme=Doom One
 
 cursor-style=bar
 
 font-family=IosevkaTerm
-font-size=10
+font-size=12
 font-style=regular
 font-synthetic-style=false
 font-style-bold=false
 font-style-italic=false
 font-style-bold-italic=false
 #alpha-blending=linear
+macos-titlebar-style = hidden
+
+background-opacity=50
+background-blur=true
 
 shell-integration-features=ssh-env
-
+confirm-close-surface=false

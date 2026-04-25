@@ -10,6 +10,14 @@ export PATH="$HOME/.composer/vendor/bin:$PATH"
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
 # ------------------------------------------------------------
+# GHOSTTY SHELL INTEGRATION
+# ------------------------------------------------------------
+# Manually source shell integration if GHOSTTY_RESOURCES_DIR is set (e.g., inside tmux)
+if [[ -n "$GHOSTTY_RESOURCES_DIR" && -f "$GHOSTTY_RESOURCES_DIR/shell-integration/bash/ghostty.bash" ]]; then
+  source "$GHOSTTY_RESOURCES_DIR/shell-integration/bash/ghostty.bash"
+fi
+
+# ------------------------------------------------------------
 # VIM MODE
 # ------------------------------------------------------------
 set -o vi
@@ -181,11 +189,10 @@ if [[ ! -v BASH_COMPLETION_VERSINFO ]]; then
   # Linux
   [[ -f /usr/share/bash-completion/bash_completion ]] && source /usr/share/bash-completion/bash_completion
 
-  # macOS Apple Silicon
-  [[ -f /opt/homebrew/etc/profile.d/bash_completion.sh ]] && source /opt/homebrew/etc/profile.d/bash_completion.sh
-
-  # macOS Intel
-  [[ -f /usr/local/etc/profile.d/bash_completion.sh ]] && source /usr/local/etc/profile.d/bash_completion.sh
+  # macos
+  if [[ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]]; then
+    source "$(brew --prefix)/etc/profile.d/bash_completion.sh"
+  fi
 fi
 
 # ------------------------------------------------------------
@@ -265,8 +272,22 @@ if command -v fzf &>/dev/null; then
     /usr/share/fzf/key-bindings.bash \
     /opt/homebrew/share/fzf/completion.bash \
     /opt/homebrew/share/fzf/key-bindings.bash \
+    /opt/homebrew/opt/fzf/shell/completion.bash \
+    /opt/homebrew/opt/fzf/shell/key-bindings.bash \
     /usr/local/share/fzf/completion.bash \
     /usr/local/share/fzf/key-bindings.bash; do
     [[ -f $file ]] && source "$file"
   done
+
+  _fzf_comprun() {
+    local command=$1
+    shift
+
+    case "$command" in
+    cd) fzf --preview 'tree -C {} | head -200' "$@" ;;
+    export | unset) fzf --preview "eval 'echo \$'{}" "$@" ;;
+    ssh) fzf --preview 'dig {}' "$@" ;;
+    *) fzf --preview 'bat -n --color=always {}' "$@" ;;
+    esac
+  }
 fi
