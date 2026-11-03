@@ -10,6 +10,14 @@ export PATH="$HOME/.composer/vendor/bin:$PATH"
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 
 # ------------------------------------------------------------
+# GHOSTTY SHELL INTEGRATION
+# ------------------------------------------------------------
+# Manually source shell integration if GHOSTTY_RESOURCES_DIR is set (e.g., inside tmux)
+if [[ -n "$GHOSTTY_RESOURCES_DIR" && -f "$GHOSTTY_RESOURCES_DIR/shell-integration/bash/ghostty.bash" ]]; then
+  source "$GHOSTTY_RESOURCES_DIR/shell-integration/bash/ghostty.bash"
+fi
+
+# ------------------------------------------------------------
 # VIM MODE
 # ------------------------------------------------------------
 set -o vi
@@ -157,6 +165,29 @@ open() {
   fi
 }
 
+# Pretty-print JSON, expanding string values that hold nested JSON (portable)
+# Reads a file argument, piped stdin, or the clipboard
+jsonx() {
+  local filter='
+    def walk(f): if type == "object" then map_values(walk(f)) | f
+                 elif type == "array" then map(walk(f)) | f
+                 else f end;
+    def unwrap: walk(if type == "string" and test("^\\s*[\\[{]") then ((fromjson? | unwrap) // .) else . end);
+    unwrap'
+
+  if [[ $# -gt 0 ]]; then jq "$filter" "$@"; return; fi
+  if [[ ! -t 0 ]]; then jq "$filter"; return; fi
+
+  if command -v pbpaste &>/dev/null; then pbpaste
+  elif [[ -n "$WAYLAND_DISPLAY" ]] && command -v wl-paste &>/dev/null; then wl-paste
+  elif command -v xclip &>/dev/null; then xclip -selection clipboard -o
+  elif command -v xsel &>/dev/null; then xsel --clipboard --output
+  else
+    echo "jsonx: no clipboard tool found (install wl-clipboard, xclip or xsel), or pipe the input in" >&2
+    return 1
+  fi | jq "$filter"
+}
+
 # ------------------------------------------------------------
 # ALIASES
 # ------------------------------------------------------------
@@ -173,6 +204,16 @@ if [[ -f "$HOME/.bash_aliases" ]]; then
   source "$HOME/.bash_aliases"
 fi
 
+# Wiki search tool (folders set in ~/.config/wiki/config)
+if [[ -f "$HOME/.config/wiki/wiki.sh" ]]; then
+  source "$HOME/.config/wiki/wiki.sh"
+fi
+
+# Machine-specific settings, not tracked in git
+if [[ -f "$HOME/.bashrc.local" ]]; then
+  source "$HOME/.bashrc.local"
+fi
+
 # ------------------------------------------------------------
 # BASH COMPLETION
 # ------------------------------------------------------------
@@ -181,11 +222,10 @@ if [[ ! -v BASH_COMPLETION_VERSINFO ]]; then
   # Linux
   [[ -f /usr/share/bash-completion/bash_completion ]] && source /usr/share/bash-completion/bash_completion
 
-  # macOS Apple Silicon
-  [[ -f /opt/homebrew/etc/profile.d/bash_completion.sh ]] && source /opt/homebrew/etc/profile.d/bash_completion.sh
-
-  # macOS Intel
-  [[ -f /usr/local/etc/profile.d/bash_completion.sh ]] && source /usr/local/etc/profile.d/bash_completion.sh
+  # macos
+  if [[ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]]; then
+    source "$(brew --prefix)/etc/profile.d/bash_completion.sh"
+  fi
 fi
 
 # ------------------------------------------------------------
@@ -265,8 +305,25 @@ if command -v fzf &>/dev/null; then
     /usr/share/fzf/key-bindings.bash \
     /opt/homebrew/share/fzf/completion.bash \
     /opt/homebrew/share/fzf/key-bindings.bash \
+    /opt/homebrew/opt/fzf/shell/completion.bash \
+    /opt/homebrew/opt/fzf/shell/key-bindings.bash \
     /usr/local/share/fzf/completion.bash \
     /usr/local/share/fzf/key-bindings.bash; do
     [[ -f $file ]] && source "$file"
   done
+
+  _fzf_comprun() {
+    local command=$1
+    shift
+
+    case "$command" in
+    cd) fzf --preview 'tree -C {} | head -200' "$@" ;;
+    export | unset) fzf --preview "eval 'echo \$'{}" "$@" ;;
+    ssh) fzf --preview 'dig {}' "$@" ;;
+    *) fzf --preview 'bat -n --color=always {}' "$@" ;;
+    esac
+  }
 fi
+
+
+export K9S_CONFIG_DIR="$HOME/.config/k9s"

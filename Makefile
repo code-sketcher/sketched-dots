@@ -1,101 +1,75 @@
+# Colors
+BLUE := \033[94m
+GREEN := \033[92m
+RED := \033[91m
+RESET := \033[0m
+
+MAKEFLAGS += -k
+
+# OS detection for portable commands
+UNAME_S := $(shell uname -s)
+LN_OPTS := -sf
+
+ifeq ($(UNAME_S),Darwin)
+	LN_OPTS := $(LN_OPTS)h
+else
+	LN_OPTS := $(LN_OPTS)n
+endif
+
 THEME ?= tokyo-night
 
-all: kitty-dots vim-dots git-dots bash-dots gnome-dots ulauncher-dots
+# Reusable function to create a symlink with colored output
+# $(1): Name of the link (for display)
+# $(2): Source path
+# $(3): Destination path
+define create_symlink
+	@printf "$(BLUE)Creating symlink for $(1)...$(RESET)\n"
+	@mkdir -p $(dir $(3))
+	@ln $(LN_OPTS) $(2) $(3) || (printf "$(RED)Error: Failed to create $(1) symlink.$(RESET)\n" && exit 1)
+	@printf "$(GREEN)$(1) symlink created successfully.$(RESET)\n"
+endef
 
-kitty-dots: 
-	./dots/kitty/kitty-dots.sh || true
+dots: tmux alacritty ghostty bash inputrc herdr wiki
 
-vim-dots: 
-	./dots/vim/vim-dots.sh || true
+tmux:
+	$(call create_symlink,tmux,${CURDIR}/dots/tmux/tmux.conf,${HOME}/.config/tmux/tmux.conf)
+	$(call create_symlink,tmux-scripts,${CURDIR}/dots/tmux/scripts,${HOME}/.config/tmux/scripts)
+	$(call create_symlink,tmux-agent-status,${CURDIR}/dots/tmux/plugins/tmux-agent-status,${HOME}/.config/tmux/plugins/tmux-agent-status)
 
-git-dots: 
-	./dots/git/git-dots.sh || true
+alacritty:
+	$(call create_symlink,alacritty,${CURDIR}/dots/alacritty,${HOME}/.config/alacritty)
 
-bash-dots: 
-	./dots/bash/bash-dots.sh || true
+ghostty:
+	$(call create_symlink,ghostty,${CURDIR}/dots/ghostty,${HOME}/.config/ghostty)
 
-gnome-dots:
-	./dots/gnome/gnome-dots.sh || true
+bash:
+	$(call create_symlink,bash,${CURDIR}/dots/bash/.bashrc,${HOME}/.bashrc)
 
-ulauncher-dots:
-	./dots/ulauncher/ulauncher-dots.sh || true
+inputrc:
+	$(call create_symlink,inputrc,${CURDIR}/dots/bash/.inputrc,${HOME}/.inputrc)
 
-ssh-dots:
-	./dots/ssh/ssh-dots.sh || true
+herdr:
+	$(call create_symlink,herdr,${CURDIR}/dots/herdr/config.toml,${HOME}/.config/herdr/config.toml)
 
-rofi-dots:
-	./dots/rofi/rofi-dots.sh || true
+wiki:
+	$(call create_symlink,wiki,${CURDIR}/dots/wiki/wiki.sh,${HOME}/.config/wiki/wiki.sh)
 
-tmux-dots: 
-	./dots/tmux/tmux-dots.sh || true
+install-nerdfont:
+	@${CURDIR}/dots/nerdfont/nerdfont-dots.sh
 
-lazyvim-dots:
-	./dots/lazyvim/lazyvim-dots.sh || true
-
-nerdfont-dots:
-	./dots/nerdfont/nerdfont-dots.sh || true
-
-pop-launcher-dots:
-	./dots/pop-launcher/pop-launcher-dots.sh || true
-
-alacritty-dots:
-	./dots/alacritty/alacritty-dots.sh ${THEME} || true
-
-walker-dots:
-	./dots/walker/walker-dots.sh ${THEME} || true
-
-background-dots:
-	./dots/background/background-dots.sh || true
-
-hypr-dots:
-	./dots/hypr/hypr-dots.sh || true	
-
-#Usage: THEME=dracula make nvim-set-theme
-nvim-set-theme:
-	./dots/nvim/set-theme.sh $(THEME) || true
-
-fedora-install-all: fedora-install-gui-apps fedora-install-tui-apps fedora-install-shell-tools fedora-install-dev-apps fedora-install-hyprland
-
-fedora-install-hyprland:
-	#Install mako(notification system)
-	sudo dnf install mako -y || true
-	#Install hyprland, waybar
-	sudo dnf copr enable solopasha/hyprland -y || true
-	sudo dnf install hyprland xdg-desktop-portal-hyprland waybar-git hyprshot hyprpaper satty -y || true
-	mkdir ~/Pictures/Screenshot || true
-	#Install apps
-	sudo dnf install pavucontrol -y | true
-	#Walker install
-	sudo dnf install elephant elephant-desktopapplications elephant-runner elephant-calc elephant-clipboard elephant-menus elephant-providerlist elephant-files elephant-todo -y || true
-	sudo dnf install qalculate -y || true
-	sudo dnf copr enable errornointernet/walker -y || true
-	sudo dnf install walker -y || true
-
-fedora-install-tui-apps:
-	sudo dnf copr enable dejan/lazygit -y || true
-	sudo dnf copr enable atim/lazydocker -y || true
-	sudo dnf copr enable varlad/yazi
-	sudo dnf -y install alacritty lazygit lazydocker wiremix yazi || true
-
-fedora-install-gui-apps:
-	sudo dnf -y install google-chrome-stable flatseal || true
-
-fedora-install-shell-tools:
-	#eza is not in the repo right now
-	sudo dnf install fzf zoxide ripgrep fd-find -y || true
-
-fedora-install-dev-apps:
-	sudo dnf install neovim openfortivpn -y || true
-	flatpak install app.freelens.Freelens -y | true
-	#install beekeeper
-	sudo curl -o /etc/yum.repos.d/beekeeper-studio.repo https://rpm.beekeeperstudio.io/beekeeper-studio.repo || true
-	sudo rpm --import https://rpm.beekeeperstudio.io/beekeeper.key || true
-	sudo dnf install beekeeper-studio || true
-	#Install docker
-	sudo dnf -y install dnf-plugins-core || true
-	sudo dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo || true
-	sudo dnf -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin || true
-	sudo systemctl enable --now docker || true
-	sudo usermod -aG docker $(USER) || true
-
+install-macos-apps:
+	@printf "$(BLUE)Checking OS for macOS application installation...$(RESET)\n"
+	@if [ "$(UNAME_S)" = "Darwin" ]; then \
+	  printf "$(BLUE)Checking for Homebrew...$(RESET)\n"; \
+	  if ! command -v brew &>/dev/null; then \
+	    printf "$(RED)Homebrew is not installed. Please install Homebrew first: /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"$(RESET)\n"; \
+	    exit 1; \
+	  fi; \
+	  printf "$(GREEN)Homebrew is installed. Installing macOS applications: fzf, fd, ripgrep, eza, zoxide, bat, yazi, herdr...$(RESET)\n"; \
+	  brew install fzf fd ripgrep eza zoxide bat yazi herdr || (printf "$(RED)Error: Failed to install some macOS applications. Check output above for details.$(RESET)\n" && exit 1); \
+	  brew install --cask ghostty|| (printf "$(RED)Error: Failed to install some macOS applications. Check output above for details.$(RESET)\n" && exit 1); \
+	  printf "$(GREEN)macOS applications installed successfully (or already present).$(RESET)\n"; \
+	else \
+	  printf "$(YELLOW)Skipping macOS application installation: Not on macOS ($(UNAME_S)).$(RESET)\n"; \
+	fi
 
