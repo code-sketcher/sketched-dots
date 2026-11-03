@@ -29,10 +29,12 @@ define create_symlink
 	@printf "$(GREEN)$(1) symlink created successfully.$(RESET)\n"
 endef
 
-dots: tmux alacritty ghostty bash inputrc
+dots: tmux alacritty ghostty bash inputrc herdr wiki
 
 tmux:
 	$(call create_symlink,tmux,${CURDIR}/dots/tmux/tmux.conf,${HOME}/.config/tmux/tmux.conf)
+	$(call create_symlink,tmux-scripts,${CURDIR}/dots/tmux/scripts,${HOME}/.config/tmux/scripts)
+	$(call create_symlink,tmux-agent-status,${CURDIR}/dots/tmux/plugins/tmux-agent-status,${HOME}/.config/tmux/plugins/tmux-agent-status)
 
 alacritty:
 	$(call create_symlink,alacritty,${CURDIR}/dots/alacritty,${HOME}/.config/alacritty)
@@ -46,6 +48,12 @@ bash:
 inputrc:
 	$(call create_symlink,inputrc,${CURDIR}/dots/bash/.inputrc,${HOME}/.inputrc)
 
+herdr:
+	$(call create_symlink,herdr,${CURDIR}/dots/herdr/config.toml,${HOME}/.config/herdr/config.toml)
+
+wiki:
+	$(call create_symlink,wiki,${CURDIR}/dots/wiki/wiki.sh,${HOME}/.config/wiki/wiki.sh)
+
 install-nerdfont:
 	@${CURDIR}/dots/nerdfont/nerdfont-dots.sh
 
@@ -57,8 +65,8 @@ install-macos-apps:
 	    printf "$(RED)Homebrew is not installed. Please install Homebrew first: /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"$(RESET)\n"; \
 	    exit 1; \
 	  fi; \
-	  printf "$(GREEN)Homebrew is installed. Installing macOS applications: fzf, fd, ripgrep, eza, zoxide, bat, yazi...$(RESET)\n"; \
-	  brew install fzf fd ripgrep eza zoxide bat yazi || (printf "$(RED)Error: Failed to install some macOS applications. Check output above for details.$(RESET)\n" && exit 1); \
+	  printf "$(GREEN)Homebrew is installed. Installing macOS applications: fzf, fd, ripgrep, eza, zoxide, bat, yazi, herdr...$(RESET)\n"; \
+	  brew install fzf fd ripgrep eza zoxide bat yazi herdr || (printf "$(RED)Error: Failed to install some macOS applications. Check output above for details.$(RESET)\n" && exit 1); \
 	  brew install --cask ghostty|| (printf "$(RED)Error: Failed to install some macOS applications. Check output above for details.$(RESET)\n" && exit 1); \
 	  printf "$(GREEN)macOS applications installed successfully (or already present).$(RESET)\n"; \
 	else \

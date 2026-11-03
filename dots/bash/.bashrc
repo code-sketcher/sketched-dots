@@ -165,6 +165,29 @@ open() {
   fi
 }
 
+# Pretty-print JSON, expanding string values that hold nested JSON (portable)
+# Reads a file argument, piped stdin, or the clipboard
+jsonx() {
+  local filter='
+    def walk(f): if type == "object" then map_values(walk(f)) | f
+                 elif type == "array" then map(walk(f)) | f
+                 else f end;
+    def unwrap: walk(if type == "string" and test("^\\s*[\\[{]") then ((fromjson? | unwrap) // .) else . end);
+    unwrap'
+
+  if [[ $# -gt 0 ]]; then jq "$filter" "$@"; return; fi
+  if [[ ! -t 0 ]]; then jq "$filter"; return; fi
+
+  if command -v pbpaste &>/dev/null; then pbpaste
+  elif [[ -n "$WAYLAND_DISPLAY" ]] && command -v wl-paste &>/dev/null; then wl-paste
+  elif command -v xclip &>/dev/null; then xclip -selection clipboard -o
+  elif command -v xsel &>/dev/null; then xsel --clipboard --output
+  else
+    echo "jsonx: no clipboard tool found (install wl-clipboard, xclip or xsel), or pipe the input in" >&2
+    return 1
+  fi | jq "$filter"
+}
+
 # ------------------------------------------------------------
 # ALIASES
 # ------------------------------------------------------------
@@ -179,6 +202,16 @@ alias cp='cp -i'
 
 if [[ -f "$HOME/.bash_aliases" ]]; then
   source "$HOME/.bash_aliases"
+fi
+
+# Wiki search tool (folders set in ~/.config/wiki/config)
+if [[ -f "$HOME/.config/wiki/wiki.sh" ]]; then
+  source "$HOME/.config/wiki/wiki.sh"
+fi
+
+# Machine-specific settings, not tracked in git
+if [[ -f "$HOME/.bashrc.local" ]]; then
+  source "$HOME/.bashrc.local"
 fi
 
 # ------------------------------------------------------------
@@ -291,3 +324,6 @@ if command -v fzf &>/dev/null; then
     esac
   }
 fi
+
+
+export K9S_CONFIG_DIR="$HOME/.config/k9s"

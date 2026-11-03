@@ -1,8 +1,0 @@
-[color]
-    ui = true
-
-[includeIf "gitdir/i:~/Projects/work/"]
-    path = ~/Projects/work/.gitconfig.work
-
-[includeIf "gitdir/i:~/Projects/own/"]
-    path = ~/Projects/own/gitconfig
